@@ -1,0 +1,113 @@
+<?php
+
+use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\JadwalIbadahController;
+use App\Http\Controllers\JenisKegiatanController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\PengurusController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JenisKategoriController;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::prefix('v1')->group(function () {
+    //midleware nanti kita buat :)
+
+    //menghandel data jenis kategori
+    Route::prefix('jenis_kategori')->group(function () {
+        Route::get('/', [JenisKategoriController::class, 'index'])->name('jenis_kategori.index');
+        Route::post('/', [JenisKategoriController::class, 'store'])->name('jenis_kategori.store');
+        Route::get('/{id}', [JenisKategoriController::class, 'show'])->name('jenis_kategori.show');
+        Route::put('/{id}', [JenisKategoriController::class, 'update'])->name('jenis_kategori.update');
+        Route::delete('/{id}', [JenisKategoriController::class, 'destroy'])->name('jenis_kategori.destroy');
+    });
+
+    //menghandel data kategori
+    Route::prefix('kategori')->group(function () {
+        Route::get('/', [KategoriController::class, 'index'])->name('kategori.index');
+        Route::post('/', [KategoriController::class, 'store'])->name('kategori.store');
+        Route::get('/{id}', [KategoriController::class, 'show'])->name('kategori.show');
+        Route::put('/{id}', [KategoriController::class, 'update'])->name('kategori.update');
+        Route::delete('/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+    });
+
+    //menghandel jenis kegiatan
+    Route::prefix('jenis_kegiatan')->group(function () {
+        Route::get('/', [JenisKegiatanController::class, 'index'])->name('jenis_kegiatan.index');
+        Route::post('/', [JenisKegiatanController::class, 'store'])->name('jenis_kegiatan.store');
+        Route::get('/{id}', [JenisKegiatanController::class, 'show'])->name('jenis_kegiatan.show');
+        Route::put('/{id}', [JenisKegiatanController::class, 'update'])->name('jenis_kegiatan.update');
+        Route::delete('/{id}', [JenisKegiatanController::class, 'destroy'])->name('jenis_kegiatan.destroy');
+    });
+
+    //menghandel kegiatan
+    Route::prefix('kegiatan')->group(function () {
+        Route::get('/', [KegiatanController::class, 'index'])->name('kegiatan.index');
+        Route::post('/', [KegiatanController::class, 'store'])->name('kegiatan.store');
+        Route::get('/{id}', [KegiatanController::class, 'show'])->name('kegiatan.show');
+        Route::put('/{id}', [KegiatanController::class, 'update'])->name('kegiatan.update');
+        Route::delete('/{id}', [KegiatanController::class, 'destroy'])->name('kegiatan.destroy');
+    });
+
+    //menghandel berita
+    Route::prefix('berita')->group(function () {
+        Route::get('/', [BeritaController::class, 'index'])->name('berita.index');
+        Route::post('/', [BeritaController::class, 'store'])->name('berita.store');
+        Route::get('/{id}', [BeritaController::class, 'show'])->name('berita.show');
+        Route::put('/{id}', [BeritaController::class, 'update'])->name('berita.update');
+        Route::delete('/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
+    });
+
+    //menghandel artikel
+    Route::prefix('artikel')->group(function () {
+        Route::get('/', [ArtikelController::class, 'index'])->name('artikel.index');
+        Route::post('/', [ArtikelController::class, 'store'])->name('artikel.store');
+        Route::get('/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
+        Route::put('/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
+        Route::delete('/{id}', [ArtikelController::class, 'destroy'])->name('artikel.destroy');
+    });
+
+    //menghandel jadwal ibadah
+    Route::prefix('jadwal_ibadah')->group(function () {
+        Route::get('/', [JadwalIbadahController::class, 'index'])->name('jadwal_ibadah.index');
+        Route::post('/', [JadwalIbadahController::class, 'store'])->name('jadwal_ibadah.store');
+        Route::get('/{id}', [JadwalIbadahController::class, 'show'])->name('jadwal_ibadah.show');
+        Route::put('/{id}', [JadwalIbadahController::class, 'update'])->name('jadwal_ibadah.update');
+        Route::delete('/{id}', [JadwalIbadahController::class, 'destroy'])->name('jadwal_ibadah.destroy');
+    });
+
+    //menghandel pengurus
+    Route::prefix('pengurus')->group(function () {
+        Route::get('/', [PengurusController::class, 'index'])->name('pengurus.index');
+        Route::post('/', [PengurusController::class, 'store'])->name('pengurus.store');
+        Route::get('/{id}', [PengurusController::class, 'show'])->name('pengurus.show');
+        Route::put('/{id}', [PengurusController::class, 'update'])->name('pengurus.update');
+        Route::delete('/{id}', [PengurusController::class, 'destroy'])->name('pengurus.destroy');
+    });
+
+    //menghandel galeri
+    Route::prefix('galeri')->group(function () {
+        Route::get('/', [GaleriController::class, 'index'])->name('galeri.index');
+        Route::post('/', [GaleriController::class, 'store'])->name('galeri.store');
+        Route::get('/{id}', [GaleriController::class, 'show'])->name('galeri.show');
+        Route::put('/{id}', [GaleriController::class, 'update'])->name('galeri.update');
+        Route::delete('/{id}', [GaleriController::class, 'destroy'])->name('galeri.destroy');
+    });
+});
