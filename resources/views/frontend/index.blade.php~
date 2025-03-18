@@ -258,8 +258,10 @@
                             <div class="bg-body-secondary p-2">
                                 <h4 id="gallery" class="bg-secondary text-center text-white mb-3" style="position: sticky; top: 0; z-index: 1;">Gallery</h4>
                                 <div class="p-2">
-                                    <div class="container">
-                                        <div class="row" id="gallery-container" class="gallery__container"></div>
+                                    <div class="container justify-content-center">
+                                        <div class="col-12">
+                                            <div id="gallery-container" class="gallery__container"></div>
+                                        </div>
                                         <div class="col-12 ms-2">
                                             <a href="#aboutall" class="btn btn-outline-primary border-secondary text-dark hover-link">
                                                 Lihat Selengkapnya
@@ -435,7 +437,7 @@
 
                 gallery.forEach(item => {
                     const galleryElement = document.createElement('div');
-                    galleryElement.className = 'col-6 col-lg-3 mb-3';
+                    galleryElement.className = 'col-4 col-lg-2 mb-3';
                     galleryElement.innerHTML = `
                             <figure class="gallery__item">
                                 <img src="${item.gambar}" alt="${item.judul}" class="gallery__img">
