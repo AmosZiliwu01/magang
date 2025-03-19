@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori;
+use App\Models\JenisKategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class KategoriController extends Controller
+class JenisKategoriController extends Controller
 {
     public function index()
     {
-        $kategori = Kategori::with('jenis_kategori')->get();
+        $jenis_kategori = JenisKategori::get();
         return response()->json([
             'success' => true,
-            'data' => $kategori, compact('kategori')
-        ], 201);
+            'data' => $jenis_kategori
+        ], 200);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'jenis_kategori_id' => 'required',
-            'nama' => 'required',
+            'nama' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -31,32 +30,35 @@ class KategoriController extends Controller
             ], 400);
         }
 
-        $kategori = Kategori::create([
-            'jenis_kategori_id' => $request->jenis_kategori_id,
+        $jenis_kategori = JenisKategori::create([
             'nama' => $request->nama,
         ]);
 
         return response()->json([
             'success' => true,
-            'data' => $kategori,
-            'message' => 'Data berhasil disimpan'
+            'data' => $jenis_kategori
         ], 201);
     }
 
     public function show($id)
     {
-        $kategori = Kategori::find($id);
+        $jenis_kategori = JenisKategori::find($id);
+        if (!$jenis_kategori) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data not found'
+            ], 404);
+        }
         return response()->json([
             'success' => true,
-            'data' => $kategori
-        ], 201);
+            'data' => $jenis_kategori
+        ], 200);
     }
 
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'jenis_kategori_id' => 'required',
-            'nama' => 'required',
+            'nama' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -66,26 +68,38 @@ class KategoriController extends Controller
             ], 400);
         }
 
-        $kategori = Kategori::find($id);
-        $kategori->update([
-            'jenis_kategori_id' => $request->jenis_kategori_id,
+        $jenis_kategori = JenisKategori::find($id);
+        if (!$jenis_kategori) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data not found'
+            ], 404);
+        }
+
+        $jenis_kategori->update([
             'nama' => $request->nama,
         ]);
 
         return response()->json([
             'success' => true,
-            'data' => $kategori
-        ], 201);
+            'data' => $jenis_kategori
+        ], 200);
     }
 
     public function destroy($id)
     {
-        $kategori = Kategori::find($id);
-        $kategori->delete();
+        $jenis_kategori = JenisKategori::find($id);
+        if (!$jenis_kategori) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data not found'
+            ], 404);
+        }
+
+        $jenis_kategori->delete();
         return response()->json([
             'success' => true,
-            'message' => 'Data berhasil dihapus',
-            'data' => $kategori
-        ], 201);
+            'message' => 'Data berhasil dihapus'
+        ], 200);
     }
 }

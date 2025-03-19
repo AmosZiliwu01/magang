@@ -400,30 +400,52 @@
 
         {{--Kalender Kegiatan--}}
         <script>
+            async function fetchData(url) {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }
+
             function renderCalendar(calendar) {
                 const calendarContainer = document.getElementById('calendar-container');
                 calendarContainer.innerHTML = ''; // Clear existing content
-                const latestCalendar = calendar[0];
 
-                if (latestCalendar) {
+                if (calendar.length > 0) {
+                    const latestCalendar = calendar[0]; // Ambil kegiatan terdekat
+
                     const calendarElement = document.createElement('div');
                     calendarElement.innerHTML = `
-                        <div class="text-start">Nama Kegiatan: ${latestCalendar.judul}</div>
-                        <div class="text-start">Tanggal dan Waktu: ${latestCalendar.tanggal_mulai}</div></div>
-                        <a href="#">Selengkapnya</a>
-                    `;
+                <div class="text-start">Nama Kegiatan: ${latestCalendar.judul}</div>
+                <div class="text-start">Tanggal dan Waktu: ${new Date(latestCalendar.tanggal_mulai).toLocaleString()}</div>
+                <a href="#">Selengkapnya</a>
+            `;
                     calendarContainer.appendChild(calendarElement);
+                } else {
+                    calendarContainer.innerHTML = '<div class="text-start">Tidak ada kegiatan hari ini.</div>';
                 }
             }
 
             document.addEventListener('DOMContentLoaded', async () => {
-                const calendar = await fetchData('/api/v1/kegiatan');
+                try {
+                    const calendarData = await fetchData('/api/v1/kegiatan');
 
-                // Ambil hanya 1 item terbaru (indeks 0)
-                const latestCalendar = calendar.data[0];
+                    // Filter kegiatan yang terjadi hari ini atau yang paling dekat
+                    const today = new Date();
+                    const filteredCalendar = calendarData.data.filter(activity => {
+                        const activityDate = new Date(activity.tanggal_mulai);
+                        return activityDate.toDateString() === today.toDateString() || activityDate >= today;
+                    });
 
-                // Render hanya 1 item terbaru
-                renderCalendar([latestCalendar]);
+                    // Sort kegiatan berdasarkan tanggal mulai
+                    filteredCalendar.sort((a, b) => new Date(a.tanggal_mulai) - new Date(b.tanggal_mulai));
+
+                    // Render hanya 1 item terbaru
+                    renderCalendar(filteredCalendar);
+                } catch (error) {
+                    console.error('Error fetching calendar data:', error);
+                }
             });
         </script>
 

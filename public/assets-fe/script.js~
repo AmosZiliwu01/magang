@@ -1,4 +1,4 @@
-/* Calendar */
+/*Calender*/
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
@@ -9,18 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        events: '/api/jadwal-ibadah',
-
-        eventRender: function(info) {
-            if (info.event.extendedProps.isHighlighted) {  // Check your conditions for highlight
-                info.el.style.backgroundColor = 'lightgreen';  // Set highlight color
-            }
-        },
-
-        eventDidMount: function(info) {
-            // Optional: Customize event appearance
-            info.el.style.border = '1px solid black';
-        },
+        events: '/api/jadwal-ibadah'
     });
 
     calendar.render();

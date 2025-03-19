@@ -66,7 +66,7 @@ class KategoriSeeder extends Seeder
             [
                 'id' => 8,
                 'jenis_kategori_id' => 2,
-                'nama' => 'Remaja Lansia',
+                'nama' => 'Remaja Lansia 1',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

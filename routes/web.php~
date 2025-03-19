@@ -29,7 +29,3 @@ Route::get('/dashboard', function () {
 Route::get('/category', function () {
     return view('backend.category');
 })->name('category');
-
-Route::get('/activity', function () {
-    return view('backend.activity');
-})->name('activity');

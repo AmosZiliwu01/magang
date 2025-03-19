@@ -10,7 +10,7 @@ class KegiatanController extends Controller
 {
     public function index()
     {
-        $kegiatan = Kegiatan::get();
+        $kegiatan = Kegiatan::latest()->get();
         return response()->json([
             'success' => true,
             'data' => $kegiatan
