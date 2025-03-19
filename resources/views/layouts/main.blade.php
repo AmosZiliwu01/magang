@@ -129,6 +129,14 @@
             <span class="pc-mtext">Activity</span>
           </a>
         </li>
+        <li class="pc-item">
+          <a href="{{route('administrator')}}" class="pc-link">
+            <span class="pc-micon">
+                <i data-feather="users"></i>
+            </span>
+            <span class="pc-mtext">Administrator</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>

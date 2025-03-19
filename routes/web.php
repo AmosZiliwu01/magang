@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +35,20 @@ Route::get('/category', function () {
 Route::get('/activity', function () {
     return view('backend.activity');
 })->name('activity');
+
+Route::get('/administrator', function () {
+    return view('backend.administrator');
+})->name('administrator');
+
+/*Route Storage*/
+Route::get('files/{filename}', function ($filename) {
+    $path = storage_path('app/public/'.$filename);
+    if (!File::exists($path)){
+        abort(404);
+    }
+    $file = File::get($path);
+    $type = File::mimeType($path);
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+    return $response;
+})->name('storage');

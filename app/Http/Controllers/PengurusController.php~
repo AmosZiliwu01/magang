@@ -25,6 +25,7 @@ class PengurusController extends Controller
             'jabatan' => 'required',
             'deskripsi' => 'required',
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'urutan' => 'nullable|numeric',
             'user_id' => 'nullable|exists:users,id',
         ]);
 
@@ -38,11 +39,19 @@ class PengurusController extends Controller
         $gambar = $request->file('gambar')->store('public/gambar');
         $gambar = str_replace('public/', '', $gambar);
 
+        // Set default order to last if not provided
+        $urutan = $request->urutan;
+        if (!$urutan) {
+            $maxUrutan = Pengurus::max('urutan') ?? 0;
+            $urutan = $maxUrutan + 10; // Use increments of 10 for easier reordering
+        }
+
         $pengurus = Pengurus::create([
             'nama' => $request->nama,
             'jabatan' => $request->jabatan,
             'deskripsi' => $request->deskripsi,
             'gambar' => $gambar,
+            'urutan' => $urutan,
             'user_id' => $request->user_id
         ]);
 
@@ -68,8 +77,8 @@ class PengurusController extends Controller
             'nama' => 'required',
             'jabatan' => 'required',
             'deskripsi' => 'required',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Changed to nullable
-            'user_id' => 'nullable|exists:users,id', // Changed to nullable to match store
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'user_id' => 'nullable|exists:users,id',
         ]);
 
         if ($validator->fails()) {
@@ -153,12 +162,12 @@ class PengurusController extends Controller
 
     public function moveDown($id)
     {
-        return DB::transaction(function () use ($id) {
+        return DB::transaction(function() use ($id) {
             // Get all pengurus sorted by urutan
             $allPengurus = Pengurus::orderBy('urutan')->get();
 
             // Find the current pengurus and its index in the sorted list
-            $currentIndex = $allPengurus->search(function ($item) use ($id) {
+            $currentIndex = $allPengurus->search(function($item) use ($id) {
                 return $item->id == $id;
             });
 

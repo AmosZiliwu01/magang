@@ -423,7 +423,7 @@
             `;
                     calendarContainer.appendChild(calendarElement);
                 } else {
-                    calendarContainer.innerHTML = '<div class="text-start">Tidak ada kegiatan hari ini.</div>';
+                    calendarContainer.innerHTML = '<div class="text-start">Tidak ada kegiatan mendatang.</div>';
                 }
             }
 

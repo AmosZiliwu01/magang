@@ -101,6 +101,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/{id}', [PengurusController::class, 'show'])->name('pengurus.show');
         Route::put('/{id}', [PengurusController::class, 'update'])->name('pengurus.update');
         Route::delete('/{id}', [PengurusController::class, 'destroy'])->name('pengurus.destroy');
+        Route::post('/{id}/move-up', [PengurusController::class, 'moveUp']);
+        Route::post('/{id}/move-down', [PengurusController::class, 'moveDown']);
     });
 
     //menghandel galeri
