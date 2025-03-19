@@ -23,7 +23,7 @@
                                 <th>Jabatan</th>
                                 <th>Deskripsi</th>
                                 <th>Urutan</th>
-                                <th>Foto</th>
+                                <th>Gambar</th>
                                 <th>Aksi</th>
                             </tr>
                             </thead>
@@ -66,7 +66,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="pengurus-gambar">Foto</label>
+                            <label for="pengurus-gambar">Gambar</label>
                             <input type="file" class="form-control" id="pengurus-gambar" name="gambar" accept="image/*">
                         </div>
                         <div class="modal-footer">
@@ -109,7 +109,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="edit-pengurus-gambar">Foto</label>
+                            <label for="edit-pengurus-gambar">Gambar</label>
                             <input type="file" class="form-control" id="edit-pengurus-gambar" name="gambar" accept="image/*">
                             <div class="mt-2">
                                 <img id="edit-pengurus-gambar-preview" src="" alt="Preview" style="max-width: 100px; max-height: 100px; display: none;">

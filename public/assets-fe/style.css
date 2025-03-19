@@ -1,28 +1,38 @@
-@keyframes moveLeft {
-    0% {
-        transform: translateX(0%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-}
-
-@keyframes moveRight {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(0%);
-    }
-}
-
-.animate-marquee {
+.pengurus-container {
     display: flex;
-    animation: moveLeft 20s linear infinite;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-.animate-marquee:hover {
-    animation-play-state: paused;
+.pengurus-container > div {
+    flex: 1 1 200px; /* Each card will have a minimum width of 200px and can grow */
+    margin: 10px; /* Space between cards */
+    max-width: 200px; /* Maximum width for uniformity */
+}
+
+.card-lift {
+    transition: transform 0.2s; /* Animation on hover */
+}
+
+.card-lift:hover {
+    transform: scale(1.05); /* Zoom effect on hover */
+}
+
+.start-0 {
+    left: 0;
+}
+
+.end-0 {
+    right: 0;
+}
+
+.top-50 {
+    top: 50%;
+}
+
+.translate-middle-y {
+    transform: translateY(-50%);
 }
 
 .move-left {
@@ -109,4 +119,41 @@ html {
     background-color:rgb(0, 140, 255);
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5;
+}
+.bg-cover {
+    background-image: url('your-image-url.jpg'); /* Replace with your image */
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px);
+}
+.container {
+    position: relative;
+    z-index: 1;
+}
+.text-primary {
+    color: #5a8fbe !important; /* Soft blue color for text */
+}
+.bg-body-tertiary {
+    background-color: #f0f4f8; /* Soft light color for background */
+}
+.btn-primary {
+    background-color: #5a8fbe; /* Soft blue color for buttons */
+    border-color: #5a8fbe;
+}
+.btn-primary:hover {
+    background-color: #4a7b9b;
+    border-color: #4a7b9b;
+}
+.btn-outline-light {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+.btn-outline-light:hover {
+    background-color: #ffffff;
+    color: #5a8fbe;
 }

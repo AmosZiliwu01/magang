@@ -66,7 +66,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="pengurus-gambar">Foto</label>
+                            <label for="pengurus-gambar">Gambar</label>
                             <input type="file" class="form-control" id="pengurus-gambar" name="gambar" accept="image/*">
                         </div>
                         <div class="modal-footer">
@@ -469,7 +469,6 @@
                         document.getElementById("edit-pengurus-nama").value = pengurus.nama;
                         document.getElementById("edit-pengurus-jabatan").value = pengurus.jabatan;
                         document.getElementById("edit-pengurus-deskripsi").value = pengurus.deskripsi || '';
-                        document.getElementById("edit-pengurus-urutan").value = pengurus.urutan || '';
 
                         // Set user if exists
                         if (pengurus.user_id) {
