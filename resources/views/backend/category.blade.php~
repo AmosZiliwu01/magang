@@ -180,20 +180,11 @@
             fetchCategoryTypes();
             fetchCategoryTypesForDropdown();
 
-            // Add Event Listeners for Edit Buttons
-            document.querySelectorAll(".btn-edit-category").forEach(button => {
-                button.addEventListener("click", function () {
-                    const category = JSON.parse(this.getAttribute("data-category"));
-                    openEditCategoryModal(category);
-                });
-            });
-
-            document.querySelectorAll(".btn-edit-category-type").forEach(button => {
-                button.addEventListener("click", function () {
-                    const categoryType = JSON.parse(this.getAttribute("data-category-type"));
-                    openEditCategoryTypeModal(categoryType);
-                });
-            });
+            // Add event listener for forms
+            document.getElementById("add-category-form").addEventListener("submit", addCategory);
+            document.getElementById("add-category-type-form").addEventListener("submit", addCategoryType);
+            document.getElementById("edit-category-form").addEventListener("submit", updateCategory);
+            document.getElementById("edit-category-type-form").addEventListener("submit", updateCategoryType);
         });
 
         // Fetch Categories
@@ -210,7 +201,7 @@
                     <td>${category.nama}</td>
                     <td>${category.jenis_kategori.nama}</td>
                     <td>
-                        <button class="btn btn-sm btn-warning btn-edit-category" data-bs-toggle="modal" data-bs-target="#edit-category-modal" data-category='${JSON.stringify(category)}'><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-sm btn-warning" onclick="openEditCategoryModal(${JSON.stringify(category).replace(/"/g, '&quot;')})"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-sm btn-danger" onclick="deleteCategory(${category.id})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>`;
@@ -235,7 +226,7 @@
                     <td>${index + 1}</td>
                     <td>${type.nama}</td>
                     <td>
-                        <button class="btn btn-sm btn-warning btn-edit-category-type" data-bs-toggle="modal" data-bs-target="#edit-category-type-modal" data-category-type='${JSON.stringify(type)}'><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-sm btn-warning" onclick="openEditCategoryTypeModal(${JSON.stringify(type).replace(/"/g, '&quot;')})"><i class="fa fa-edit"></i></button>
                         <button class="btn btn-sm btn-danger" onclick="deleteCategoryType(${type.id})"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>`;
@@ -270,9 +261,9 @@
         }
 
         // Add Category
-        document.getElementById("add-category-form").addEventListener("submit", function (e) {
+        function addCategory(e) {
             e.preventDefault();
-            const formData = new FormData(this);
+            const formData = new FormData(document.getElementById("add-category-form"));
             console.log("Form Add Category Submitted"); // Debugging
             console.log("Form Data:", Array.from(formData.entries())); // Debugging
 
@@ -298,8 +289,9 @@
                             title: 'Success!',
                             text: 'Category added successfully.',
                         }).then(() => {
-                            $("#add-category-modal").modal("hide"); // Tutup modal setelah SweetAlert ditutup
-                            fetchCategories(); // Refresh tabel Category
+                            $("#add-category-modal").modal("hide"); // Close modal after SweetAlert is closed
+                            document.getElementById("add-category-form").reset();
+                            fetchCategories(); // Refresh Category table
                         });
                     } else {
                         let errorMessage = 'Something went wrong.';
@@ -321,12 +313,12 @@
                         text: 'Failed to add category. Please try again.',
                     });
                 });
-        });
+        }
 
         // Add Category Type
-        document.getElementById("add-category-type-form").addEventListener("submit", function (e) {
+        function addCategoryType(e) {
             e.preventDefault();
-            const formData = new FormData(this);
+            const formData = new FormData(document.getElementById("add-category-type-form"));
             console.log("Form Data:", Array.from(formData.entries())); // Debugging
 
             fetch("/api/v1/jenis_kategori", {
@@ -351,8 +343,10 @@
                             title: 'Success!',
                             text: 'Category Type added successfully.',
                         }).then(() => {
-                            $("#add-category-type-modal").modal("hide"); // Tutup modal setelah SweetAlert ditutup
-                            fetchCategoryTypes(); // Refresh tabel Category Type
+                            $("#add-category-type-modal").modal("hide"); // Close modal after SweetAlert is closed
+                            document.getElementById("add-category-type-form").reset();
+                            fetchCategoryTypes(); // Refresh Category Type table
+                            fetchCategoryTypesForDropdown(); // Refresh dropdown options
                         });
                     } else {
                         let errorMessage = 'Something went wrong.';
@@ -374,12 +368,12 @@
                         text: 'Failed to add category type. Please try again.',
                     });
                 });
-        });
+        }
 
-        // Edit Category
-        document.getElementById("edit-category-form").addEventListener("submit", function (e) {
+        // Update Category
+        function updateCategory(e) {
             e.preventDefault();
-            const formData = new FormData(this);
+            const formData = new FormData(document.getElementById("edit-category-form"));
             const categoryId = document.getElementById("edit-category-id").value;
             console.log("Form Edit Category Submitted"); // Debugging
 
@@ -421,12 +415,12 @@
                         text: 'Failed to update category. Please try again.',
                     });
                 });
-        });
+        }
 
-        // Edit Category Type
-        document.getElementById("edit-category-type-form").addEventListener("submit", function (e) {
+        // Update Category Type
+        function updateCategoryType(e) {
             e.preventDefault();
-            const formData = new FormData(this);
+            const formData = new FormData(document.getElementById("edit-category-type-form"));
             const categoryTypeId = document.getElementById("edit-category-type-id").value;
             console.log("Form Edit Category Type Submitted"); // Debugging
 
@@ -468,7 +462,7 @@
                         text: 'Failed to update category type. Please try again.',
                     });
                 });
-        });
+        }
 
         // Delete Category
         function deleteCategory(id) {
@@ -521,6 +515,7 @@
                             if (data.success) {
                                 Swal.fire("Deleted!", "Category Type has been deleted.", "success");
                                 fetchCategoryTypes();
+                                fetchCategoryTypesForDropdown(); // Refresh dropdown options after deletion
                             } else {
                                 Swal.fire("Error!", data.message, "error");
                             }
@@ -534,16 +529,26 @@
 
         // Open Edit Category Modal
         function openEditCategoryModal(category) {
+            if (typeof category === 'string') {
+                category = JSON.parse(category);
+            }
+
             document.getElementById("edit-category-id").value = category.id;
             document.getElementById("edit-category-name").value = category.nama;
             document.getElementById("edit-category-type").value = category.jenis_kategori_id;
+
             $("#edit-category-modal").modal("show");
         }
 
         // Open Edit Category Type Modal
         function openEditCategoryTypeModal(categoryType) {
+            if (typeof categoryType === 'string') {
+                categoryType = JSON.parse(categoryType);
+            }
+
             document.getElementById("edit-category-type-id").value = categoryType.id;
             document.getElementById("edit-category-type-name").value = categoryType.nama;
+
             $("#edit-category-type-modal").modal("show");
         }
     </script>

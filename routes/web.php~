@@ -40,10 +40,6 @@ Route::get('/administrator', function () {
     return view('backend.administrator');
 })->name('administrator');
 
-Route::get('/gallery', function (){
-    return view('backend.gallery');
-})->name('gallery');
-
 /*Route Storage*/
 Route::get('files/{filename}', function ($filename) {
     $path = storage_path('app/public/'.$filename);

@@ -116,7 +116,7 @@
         <li class="pc-item pc-hasmenu">
           <a href="{{route('category')}}" class="pc-link">
             <span class="pc-micon">
-              <i data-feather="align-right"></i>
+              <i data-feather="folder"></i>
             </span>
             <span class="pc-mtext">Category</span>
           </a>
@@ -132,11 +132,19 @@
         <li class="pc-item">
           <a href="{{route('administrator')}}" class="pc-link">
             <span class="pc-micon">
-                <i data-feather="users"></i>
+                <i data-feather="user-check"></i>
             </span>
             <span class="pc-mtext">Administrator</span>
           </a>
         </li>
+          <li class="pc-item">
+              <a href="{{route('gallery')}}" class="pc-link">
+            <span class="pc-micon">
+                <i data-feather="image"></i>
+            </span>
+                  <span class="pc-mtext">Gallery</span>
+              </a>
+          </li>
       </ul>
     </div>
   </div>

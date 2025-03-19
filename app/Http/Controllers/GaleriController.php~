@@ -61,13 +61,12 @@ class GaleriController extends Controller
         ], 201);
     }
 
-    // app/Http/Controllers/GaleriController.php
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'judul' => 'required',
             'deskripsi' => 'required',
-            'gambar' => 'nullable|image',
+            'gambar' => 'nullable',
             'kategori_id' => 'required',
             'user_id' => 'nullable',
         ]);
@@ -79,16 +78,10 @@ class GaleriController extends Controller
             ], 400);
         }
 
+        $gambar = $request->file('gambar')->store('public/galerry');
+        $gambar = str_replace('public/', '', $gambar);
+
         $galeri = Galeri::find($id);
-
-        // Handle file upload if a new file is provided
-        if ($request->hasFile('gambar')) {
-            $gambar = $request->file('gambar')->store('public/galerry');
-            $gambar = str_replace('public/', '', $gambar);
-        } else {
-            $gambar = $galeri->gambar; // Keep the existing image if no new file is uploaded
-        }
-
         $galeri->update([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
